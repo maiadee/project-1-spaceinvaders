@@ -29,6 +29,7 @@
 // ? As a user I want to see a block of aliens on the screen
 // Create CSS property with class of .alien - background image of alien asset
 // Define an array of aliens to give each alien an index
+// create function aliensMove
 // ! This block will move right-down-left-down-right-down etc across the screen - if this block touches my player - trigger game over
 // Use a forEach loop move the array
 // Use iteration method to check every cell in array to see if they reach the left / right side - if yes then the array moves down a row
@@ -86,21 +87,22 @@
 // - bullets from the enemies break these down each time they are hit
 
 /*-------------------------------- Constants --------------------------------*/
-// Cache button element as startButton - use query selector
 const startButton = document.querySelector(".start-button");
-// Cache the grid as gridContainer - use query selector
+
 const gridContainer = document.querySelector("#grid-container");
 
-// Define an array of aliens to give each alien an index
 const aliens = [];
 
-const gridCells = [];
+const cellsArray = [];
 const gridRows = 10;
 const gridColumns = 20;
 const totalCellCount = gridRows * gridColumns;
 
 /*-------------------------------- Variables --------------------------------*/
 let playerStartPosition = 183;
+
+let currentPlayerPosition = 183;
+
 /*-------------------------------- Functions --------------------------------*/
 // * Create a function called gameStart that is triggered when button is clicked
 function gameStart() {
@@ -117,23 +119,90 @@ function createGrid() {
     cell.classList.add("cell");
     cell.innerText = i;
     gridContainer.appendChild(cell);
-    gridCells.push(cell);
+    cellsArray.push(cell);
   }
-  gridCells[playerStartPosition].classList.add("player");
+  cellsArray[playerStartPosition].classList.add("player");
+
+  for (let i = 45; i < 55; i++) {
+    aliens.push(cellsArray[i]);
+  }
+  for (let i = 65; i < 75; i++) {
+    aliens.push(cellsArray[i]);
+  }
+  for (let i = 85; i < 95; i++) {
+    aliens.push(cellsArray[i]);
+  }
+  for (let i = 105; i < 115; i++) {
+    aliens.push(cellsArray[i]);
+  }
+
+  aliens.forEach((cell) => {
+    cell.classList.add("alien");
+  });
 }
 
 // * Create function addPlayer to add the class of player to the grid cell
-function addPlayer() {}
+function addPlayer() {
+  cellsArray[currentPlayerPosition].classList.add("player");
+}
 
 // * Create function removePlayer to remove the class of player from the grid cell
-function removePlayer() {}
+function removePlayer() {
+  cellsArray[currentPlayerPosition].classList.remove("player");
+}
 
 // * Create function movePlayer
-function movePlayer() {
-  // Define variable pressedKey = event.code (in global scope?)
-  // use if statement - if pressedKey === ArrowLeft/ArrowRight to remove class from current player position and add player class to next player position
+function movePlayer(event) {
+  const pressedKey = event.code;
+
+  if (pressedKey === "ArrowLeft" && currentPlayerPosition % gridColumns !== 0) {
+    removePlayer(currentPlayerPosition);
+    currentPlayerPosition--;
+    addPlayer(currentPlayerPosition);
+  } else if (
+    pressedKey === "ArrowRight" &&
+    currentPlayerPosition % gridColumns !== gridColumns - 1
+  ) {
+    removePlayer(currentPlayerPosition);
+    currentPlayerPosition++;
+    addPlayer(currentPlayerPosition);
+  } else if (pressedKey === "Space") {
+    console.log("shoot");
+  }
 }
+
+// create function to make aliens appear - 10 along the rows and 4 down the columns - starting at 44
+function addAlien() {
+  aliens.classList.add("alien");
+}
+
+function removeAlien() {
+  aliens.classList.remove("alien");
+}
+
+// create function aliensMove
+
+// function moveAliensRight()
+function moveAliensRight() {
+  setInterval(() => {
+    cellsArray.forEach(() => {});
+  }, 800);
+}
+// setInterval
+// remove class of alien from current position
+// iterate through cells, check if any of the cells reach right wall ( if current positon +1 is % grid columns )
+// if no, position++ and add class, if yes, position += 20 grid columns add class and clearInterval
+
+// function moveAliensLeft()
+// setInterval
+// remove class of alien from current position
+// iterate through cells, check if any of the cells reach left wall (if current position is % grid columns )
+// if no, position-- and add class, if yes, position += 20 grid columns add class and clear interval
+
+// ! This block will move right-down-left-down-right-down etc across the screen - if this block touches my player - trigger game over
+// ! look at iteration methods - is every alien able to move?
 
 /*----------------------------- Event Listeners -----------------------------*/
 // Add click event to startButton
 startButton.addEventListener("click", gameStart);
+document.addEventListener("keydown", movePlayer);
