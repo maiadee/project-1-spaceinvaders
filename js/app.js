@@ -7,11 +7,12 @@
 // position fixed
 // When startButton is clicked, display: none to hide this
 // Cache button element as startButton - use query selector
-// Add click event to button
+// Add click event to startButton
 // Create a function called gameStart that is triggered when button is clicked
 
 // ? As a user, when I press Start Game button I want to see my grid appear
 // Create a function called createGrid that is called in the gameStart function
+// Declare constants gridRows and gridColumns
 // Create a grid in JS using gridRows and gridColumns - totalCellCount = gridRows * gridColumns
 // In the function use a for loop to create the grid - for(let i=0; i < totalCellCount;i++)
 // Cache the grid as gridContainer - use query selector
@@ -25,9 +26,9 @@
 // Define variable pressedKey = event.code (in global scope?)
 // use if statement - if pressedKey === ArrowLeft/ArrowRight to remove class from current player position and add player class to next player position
 
-// ? As a user I want to see a block of enemies on the screen
-// Create CSS property with class of enemy - alien image
-// Define an array of enemies to give each enemy an index
+// ? As a user I want to see a block of aliens on the screen
+// Create CSS property with class of .alien - background image of alien asset
+// Define an array of aliens to give each alien an index
 // ! This block will move right-down-left-down-right-down etc across the screen - if this block touches my player - trigger game over
 // Use a forEach loop move the array
 // Use iteration method to check every cell in array to see if they reach the left / right side - if yes then the array moves down a row
@@ -36,7 +37,7 @@
 // Create a function called enemyShoot with a set interval of 3000 - every 3 seconds a bullet falls
 // Nest another setInterval, 500 - move the bullet.
 // use Math.random to find a random position in the array
-// Then add the class from current enemy position, remove it, find the next position and update class of that cell with .enemy - bullet
+// Then add the class from current alien position, remove it, find the next position and update class of that cell with .alien - bullet
 // ! after and before - look at this for giving cell multiple background images
 
 // ? As a user I want to shoot upwards at my enemies to score points using the spacebar
@@ -74,7 +75,7 @@
 
 // ? As a user, if all enemies are killed I want my game to reset but keep my score
 // Use a forEach loop to check if any cells in my array have class of enemy
-// If no - enemy grid reset
+// If no - alien grid reset
 // Create function enemyReset()
 // reset enemiesStartPosition
 
@@ -85,9 +86,54 @@
 // - bullets from the enemies break these down each time they are hit
 
 /*-------------------------------- Constants --------------------------------*/
+// Cache button element as startButton - use query selector
+const startButton = document.querySelector(".start-button");
+// Cache the grid as gridContainer - use query selector
+const gridContainer = document.querySelector("#grid-container");
+
+// Define an array of aliens to give each alien an index
+const aliens = [];
+
+const gridCells = [];
+const gridRows = 10;
+const gridColumns = 20;
+const totalCellCount = gridRows * gridColumns;
 
 /*-------------------------------- Variables --------------------------------*/
-
+let playerStartPosition = 183;
 /*-------------------------------- Functions --------------------------------*/
+// * Create a function called gameStart that is triggered when button is clicked
+function gameStart() {
+  createGrid();
+}
+
+// * Create a function called createGrid that is called in the gameStart function
+function createGrid() {
+  startButton.classList.add("hide-button");
+  gridContainer.style.setProperty("--grid-columns", gridColumns);
+  gridContainer.style.setProperty("--grid-rows", gridRows);
+  for (let i = 0; i < totalCellCount; i++) {
+    const cell = document.createElement("div");
+    cell.classList.add("cell");
+    cell.innerText = i;
+    gridContainer.appendChild(cell);
+    gridCells.push(cell);
+  }
+  gridCells[playerStartPosition].classList.add("player");
+}
+
+// * Create function addPlayer to add the class of player to the grid cell
+function addPlayer() {}
+
+// * Create function removePlayer to remove the class of player from the grid cell
+function removePlayer() {}
+
+// * Create function movePlayer
+function movePlayer() {
+  // Define variable pressedKey = event.code (in global scope?)
+  // use if statement - if pressedKey === ArrowLeft/ArrowRight to remove class from current player position and add player class to next player position
+}
 
 /*----------------------------- Event Listeners -----------------------------*/
+// Add click event to startButton
+startButton.addEventListener("click", gameStart);
