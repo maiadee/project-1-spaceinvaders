@@ -91,7 +91,7 @@ const startButton = document.querySelector(".start-button");
 
 const gridContainer = document.querySelector("#grid-container");
 
-const aliens = [];
+const alienIndices = [];
 
 const cellsArray = [];
 const gridRows = 10;
@@ -125,20 +125,20 @@ function createGrid() {
   cellsArray[playerStartPosition].classList.add("player");
 
   for (let i = 45; i < 55; i++) {
-    aliens.push(cellsArray[i]);
+    alienIndices.push(i);
   }
   for (let i = 65; i < 75; i++) {
-    aliens.push(cellsArray[i]);
+    alienIndices.push(i);
   }
   for (let i = 85; i < 95; i++) {
-    aliens.push(cellsArray[i]);
+    alienIndices.push(i);
   }
   for (let i = 105; i < 115; i++) {
-    aliens.push(cellsArray[i]);
+    alienIndices.push(i);
   }
 
-  aliens.forEach((cell) => {
-    cell.classList.add("alien");
+  alienIndices.forEach((alien) => {
+    cellsArray[alien].classList.add("alien");
   });
 }
 
@@ -172,14 +172,14 @@ function movePlayer(event) {
   }
 }
 function addAlien() {
-  aliens.forEach((alien) => {
-    alien.classList.add("alien");
+  alienIndices.forEach((alien) => {
+    cellsArray[alien].classList.add("alien");
   });
 }
 
 function removeAlien() {
-  aliens.forEach((alien) => {
-    alien.classList.remove("alien");
+  alienIndices.forEach((alien) => {
+    cellsArray[alien].classList.remove("alien");
   });
 }
 
@@ -188,27 +188,33 @@ function removeAlien() {
 function moveAliensRight() {
   const moveRight = setInterval(() => {
     removeAlien();
+    alienIndices.some((alien) => {
+      console.log(
+        `${alien} % ${gridColumns}`,
+        alien % gridColumns === gridColumns - 1
+      );
 
-    for (let i = 0; i < aliens.length; i++) {
-      const alienCurrentIndex = cellsArray.indexOf(aliens[i]);
-      const alienNextIndex = alienCurrentIndex + 1;
+      return alien % gridColumns === gridColumns - 1;
+    });
+    //   check if aliens have hit the wall - if so stop interval
+    if (alienIndices.some((alien) => alien % gridColumns === gridColumns - 1)) {
+      clearInterval(moveRight);
+    //   for (let i = 0; i < alienIndices.length; i++) {
+    //     const alienCurrentIndex = alienIndices[i];
+    //     const alienNextIndex = (alienCurrentIndex += gridColumns);
 
-      aliens[i] = cellsArray[alienNextIndex];
+    //     alienIndices[i] = alienNextIndex;
+    //   }
+    } else {
+      // checking through array to give next indeces
+      for (let i = 0; i < alienIndices.length; i++) {
+        const alienCurrentIndex = alienIndices[i];
+        const alienNextIndex = alienCurrentIndex + 1;
+
+        alienIndices[i] = alienNextIndex;
+      }
     }
     addAlien();
-
-    const hitWallRight = aliens.some(
-      (alien) => alienCurrentIndex % gridColumns === gridColumns - 1
-    );
-    if (hitWallRight === true) {
-      clearInterval(moveRight);
-    }
-      
-    // if (
-    //   aliens.some((alien) => alienCurrentIndex % gridColumns != gridColumns - 1)
-    // ) {
-    //   clearInterval(moveRight);
-    // }
   }, 800);
 }
 
