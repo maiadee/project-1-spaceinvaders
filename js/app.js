@@ -259,33 +259,39 @@ function bonusEnemy() {
       // Add the bonus-enemy class to the new position
       cellsArray[currentPosition].classList.add("bonus-enemy");
     }
-  }, 300);
+  }, 500);
 
-  // Restart the bonus enemy function every 3 seconds
+  // Restart the bonus enemy function every 8 seconds
   setTimeout(() => {
     bonusEnemy();
   }, 8000);
 }
 
-// Create function playerShoot
 function playerShoot() {
+  // add bullet to player position
   let bulletPosition = currentPlayerPosition;
   cellsArray[bulletPosition].classList.add("player-bullet");
   const shootEnemy = setInterval(() => {
     //   check if bullet hits an alien - clear interval
     if (cellsArray[bulletPosition].classList.contains("alien")) {
-      clearInterval(bulletPosition);
+      console.log("alien hit");
+      clearInterval(shootEnemy);
       cellsArray[bulletPosition].classList.remove("player-bullet");
-      // need to stop bullet moving here
-      //   console.log("hit alien");
+      // ! need to remove alien class here
+
+      //* add another else if with -
+      // * if(cellsArray[bulletPosition].classList.contains("bonus-enemy")
+      //  * console.log("enemy hit");
+      // * clearInterval(shootEnemy)
     } else {
       // add and remove class of bullet going up a row each time
       cellsArray[bulletPosition].classList.remove("player-bullet");
       bulletPosition -= gridColumns;
       cellsArray[bulletPosition].classList.add("player-bullet");
     }
-  }, 300);
+  }, 200);
 }
+
 // add window.addEventListener("space", (event) => {})
 // Use an if statement - if pressedKey === space, call playerShoot function
 // playerShoot function adds class of player-bullet to current player position
