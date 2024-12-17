@@ -199,18 +199,17 @@ function moveAliensRight() {
     //   check if aliens have hit the wall - if so stop interval
     if (alienIndices.some((alien) => alien % gridColumns === gridColumns - 1)) {
       clearInterval(moveRight);
-    //   for (let i = 0; i < alienIndices.length; i++) {
-    //     const alienCurrentIndex = alienIndices[i];
-    //     const alienNextIndex = (alienCurrentIndex += gridColumns);
-
-    //     alienIndices[i] = alienNextIndex;
-    //   }
+      // move all aliens down one row
+      for (let i = 0; i < alienIndices.length; i++) {
+        alienIndices[i] += gridColumns;
+      }
+      addAlien();
+      moveAliensLeft();
     } else {
-      // checking through array to give next indeces
+      // checking through array to give next indices - moving oen cell right
       for (let i = 0; i < alienIndices.length; i++) {
         const alienCurrentIndex = alienIndices[i];
         const alienNextIndex = alienCurrentIndex + 1;
-
         alienIndices[i] = alienNextIndex;
       }
     }
@@ -226,14 +225,27 @@ function moveAliensRight() {
 function moveAliensLeft() {
   const moveLeft = setInterval(() => {
     removeAlien();
-
-    for (let i = 0; i < aliens.length; i++) {
-      const alienCurrentIndex = cellsArray.indexOf(aliens[i]);
-      const alienNextIndex = alienCurrentIndex - 1;
-
-      aliens[i] = cellsArray[alienNextIndex];
+    //  log to see if any aliens hit left wall
+    alienIndices.some((alien) => {
+      console.log(`${alien} % ${gridColumns}`, alien % gridColumns === 0);
+      return alien % gridColumns === 0;
+    });
+    //   check if aliens have hit left wall - if so stop interval
+    if (alienIndices.some((alien) => alien % gridColumns === 0)) {
+      clearInterval(moveLeft);
+      for (let i = 0; i < alienIndices.length; i++) {
+        alienIndices[i] += gridColumns;
+      }
+      addAlien();
+      moveAliensRight();
+    } else {
+      // checking through array to give next indices - moving one cell left
+      for (let i = 0; i < alienIndices.length; i++) {
+        const alienCurrentIndex = alienIndices[i];
+        const alienNextIndex = alienCurrentIndex - 1;
+        alienIndices[i] = alienNextIndex;
+      }
     }
-
     addAlien();
   }, 800);
 }
