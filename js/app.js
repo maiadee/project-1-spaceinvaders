@@ -190,13 +190,25 @@ function moveAliensRight() {
     removeAlien();
 
     for (let i = 0; i < aliens.length; i++) {
-      const currentIndex = cellsArray.indexOf(aliens[i]);
-      const nextIndex = currentIndex + 1;
+      const alienCurrentIndex = cellsArray.indexOf(aliens[i]);
+      const alienNextIndex = alienCurrentIndex + 1;
 
-      aliens[i] = cellsArray[nextIndex];
+      aliens[i] = cellsArray[alienNextIndex];
     }
-
     addAlien();
+
+    const hitWallRight = aliens.some(
+      (alien) => alienCurrentIndex % gridColumns === gridColumns - 1
+    );
+    if (hitWallRight === true) {
+      clearInterval(moveRight);
+    }
+      
+    // if (
+    //   aliens.some((alien) => alienCurrentIndex % gridColumns != gridColumns - 1)
+    // ) {
+    //   clearInterval(moveRight);
+    // }
   }, 800);
 }
 
@@ -205,7 +217,21 @@ function moveAliensRight() {
 // iterate through cells, check if any of the cells reach right wall ( if current positon +1 is % grid columns )
 // if no, position++ and add class, if yes, position += 20 grid columns add class and clearInterval
 
-// function moveAliensLeft()
+function moveAliensLeft() {
+  const moveLeft = setInterval(() => {
+    removeAlien();
+
+    for (let i = 0; i < aliens.length; i++) {
+      const alienCurrentIndex = cellsArray.indexOf(aliens[i]);
+      const alienNextIndex = alienCurrentIndex - 1;
+
+      aliens[i] = cellsArray[alienNextIndex];
+    }
+
+    addAlien();
+  }, 800);
+}
+
 // setInterval
 // remove class of alien from current position
 // iterate through cells, check if any of the cells reach left wall (if current position is % grid columns )
@@ -218,37 +244,6 @@ function moveAliensRight() {
 // Nest another setInterval, 500 - move the bullet.
 // use Math.random to find a random position in the array
 // Then add the class from current alien position, remove it, find the next position and update class of that cell with .alien - bullet
-
-// create function to make aliens appear - 10 along the rows and 4 down the columns - starting at 44
-function addAlien() {
-  aliens.classList.add("alien");
-}
-
-function removeAlien() {
-  aliens.classList.remove("alien");
-}
-
-// create function aliensMove
-
-// function moveAliensRight()
-function moveAliensRight() {
-  setInterval(() => {
-    cellsArray.forEach(() => {});
-  }, 800);
-}
-// setInterval
-// remove class of alien from current position
-// iterate through cells, check if any of the cells reach right wall ( if current positon +1 is % grid columns )
-// if no, position++ and add class, if yes, position += 20 grid columns add class and clearInterval
-
-// function moveAliensLeft()
-// setInterval
-// remove class of alien from current position
-// iterate through cells, check if any of the cells reach left wall (if current position is % grid columns )
-// if no, position-- and add class, if yes, position += 20 grid columns add class and clear interval
-
-// ! This block will move right-down-left-down-right-down etc across the screen - if this block touches my player - trigger game over
-// ! look at iteration methods - is every alien able to move?
 
 /*----------------------------- Event Listeners -----------------------------*/
 // Add click event to startButton
