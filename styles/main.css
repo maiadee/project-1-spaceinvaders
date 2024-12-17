@@ -90,6 +90,13 @@ html {
   background-repeat: no-repeat;
 }
 
+.player-bullet {
+  background-image: url("../assets/player-bullet.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .start-button {
   display: block;
   margin: auto;

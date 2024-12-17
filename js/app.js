@@ -104,14 +104,13 @@ let playerStartPosition = 183;
 let currentPlayerPosition = 183;
 
 /*-------------------------------- Functions --------------------------------*/
-// * Create a function called gameStart that is triggered when button is clicked
+
 function gameStart() {
   createGrid();
   moveAliensRight();
   bonusEnemy();
 }
 
-// * Create a function called createGrid that is called in the gameStart function
 function createGrid() {
   startButton.classList.add("hide-button");
   gridContainer.style.setProperty("--grid-columns", gridColumns);
@@ -143,17 +142,14 @@ function createGrid() {
   });
 }
 
-// * Create function addPlayer to add the class of player to the grid cell
 function addPlayer() {
   cellsArray[currentPlayerPosition].classList.add("player");
 }
 
-// * Create function removePlayer to remove the class of player from the grid cell
 function removePlayer() {
   cellsArray[currentPlayerPosition].classList.remove("player");
 }
 
-// * Create function movePlayer
 function movePlayer(event) {
   const pressedKey = event.code;
 
@@ -169,9 +165,10 @@ function movePlayer(event) {
     currentPlayerPosition++;
     addPlayer(currentPlayerPosition);
   } else if (pressedKey === "Space") {
-    console.log("shoot");
+    playerShoot();
   }
 }
+
 function addAlien() {
   alienIndices.forEach((alien) => {
     cellsArray[alien].classList.add("alien");
@@ -213,7 +210,7 @@ function moveAliensRight() {
       }
     }
     addAlien();
-  }, 800);
+  }, 1000);
 }
 
 function moveAliensLeft() {
@@ -242,28 +239,8 @@ function moveAliensLeft() {
       }
     }
     addAlien();
-  }, 800);
+  }, 1000);
 }
-
-// function bonusEnemy() {
-//   let currentPosition = 39;
-//   cellsArray[currentPosition].classList.add("bonus-enemy");
-//   const moveUfo = setInterval(() => {
-//     setInterval(() => {
-//       // remove bonus enemy, go back one cell then add bonus enemy
-//       cellsArray[currentPosition].classList.remove("bonus-enemy");
-//       currentPosition--;
-//       cellsArray[currentPosition].classList.add("bonus-enemy");
-
-//       // check if the bonus enemy hits left wall, if so clear interval
-//       if (currentPosition % gridColumns === 0) {
-//         //   remove class and clear interval
-//         cellsArray[currentPosition].classList.remove("bonus-enemy");
-//         clearInterval(moveUfo);
-//       }
-//     }, 500);
-//   }, 3000);
-// }
 
 function bonusEnemy() {
   let currentPosition = 39;
@@ -288,12 +265,33 @@ function bonusEnemy() {
   setTimeout(() => {
     bonusEnemy();
   }, 8000);
-} 
+}
 
-// declare starting position of bonus-enemy
-// Create function bonusEnemy()
-// setInterval, 5000
-// Nest another setInterval,500 - this would add the class of bonus-enemy to starting position, remove it, find the next position and add the class of bonus-enemy to that cell
+// Create function playerShoot
+function playerShoot() {
+  let bulletPosition = currentPlayerPosition;
+  cellsArray[bulletPosition].classList.add("player-bullet");
+  const shootEnemy = setInterval(() => {
+    //   check if bullet hits an alien - clear interval
+    if (cellsArray[bulletPosition].classList.contains("alien")) {
+      clearInterval(bulletPosition);
+      cellsArray[bulletPosition].classList.remove("player-bullet");
+      // need to stop bullet moving here
+      //   console.log("hit alien");
+    } else {
+      // add and remove class of bullet going up a row each time
+      cellsArray[bulletPosition].classList.remove("player-bullet");
+      bulletPosition -= gridColumns;
+      cellsArray[bulletPosition].classList.add("player-bullet");
+    }
+  }, 300);
+}
+// add window.addEventListener("space", (event) => {})
+// Use an if statement - if pressedKey === space, call playerShoot function
+// playerShoot function adds class of player-bullet to current player position
+// In a setInterval, 500, class is removed from current position and added to the position in row above
+// using an if statement check if any of the aliens in my array contain a class of player-bullet using an iteration method
+// If the bullet hits an alien, both the alien and the bullet disappear (remove class of enemy and player-bullet) and my score goes up 20 points - update innerHTML score
 
 // ! if alien block touches my player - trigger game over
 
