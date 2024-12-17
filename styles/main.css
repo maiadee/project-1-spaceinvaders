@@ -18,8 +18,9 @@ html {
   flex-direction: column;
   max-width: 800px;
   font-family: "Press Start 2P", system-ui;
-  /* background-color: black;
-  color: white; */
+  /* comment out while working on it */
+  background-color: black;
+  color: white;
 }
 
 #logo {
@@ -82,15 +83,23 @@ html {
   background-repeat: no-repeat;
 }
 
+.bonus-enemy {
+  background-image: url("../assets/bonus-enemy.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .start-button {
   display: block;
   margin: auto;
   padding: 10px;
   border-radius: 10px;
   font-family: "Press Start 2P", system-ui;
-  /* background-color: black;
+  /* comment out while working on it */
+  background-color: black;
   color: white;
-  border: 1px solid white; */
+  border: 1px solid white;
 }
 
 .hide-button {

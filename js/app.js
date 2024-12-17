@@ -108,6 +108,7 @@ let currentPlayerPosition = 183;
 function gameStart() {
   createGrid();
   moveAliensRight();
+  bonusEnemy();
 }
 
 // * Create a function called createGrid that is called in the gameStart function
@@ -183,8 +184,6 @@ function removeAlien() {
   });
 }
 
-// create function aliensMove?
-
 function moveAliensRight() {
   const moveRight = setInterval(() => {
     removeAlien();
@@ -199,14 +198,14 @@ function moveAliensRight() {
     //   check if aliens have hit the wall - if so stop interval
     if (alienIndices.some((alien) => alien % gridColumns === gridColumns - 1)) {
       clearInterval(moveRight);
-      // move all aliens down one row
+      // move aliens down a row
       for (let i = 0; i < alienIndices.length; i++) {
         alienIndices[i] += gridColumns;
       }
       addAlien();
       moveAliensLeft();
     } else {
-      // checking through array to give next indices - moving oen cell right
+      // checking through array to give next indices - moving one cell right
       for (let i = 0; i < alienIndices.length; i++) {
         const alienCurrentIndex = alienIndices[i];
         const alienNextIndex = alienCurrentIndex + 1;
@@ -216,11 +215,6 @@ function moveAliensRight() {
     addAlien();
   }, 800);
 }
-
-// setInterval
-// remove class of alien from current position
-// iterate through cells, check if any of the cells reach right wall ( if current positon +1 is % grid columns )
-// if no, position++ and add class, if yes, position += 20 grid columns add class and clearInterval
 
 function moveAliensLeft() {
   const moveLeft = setInterval(() => {
@@ -233,6 +227,7 @@ function moveAliensLeft() {
     //   check if aliens have hit left wall - if so stop interval
     if (alienIndices.some((alien) => alien % gridColumns === 0)) {
       clearInterval(moveLeft);
+      // move aliens down a row
       for (let i = 0; i < alienIndices.length; i++) {
         alienIndices[i] += gridColumns;
       }
@@ -250,13 +245,57 @@ function moveAliensLeft() {
   }, 800);
 }
 
-// setInterval
-// remove class of alien from current position
-// iterate through cells, check if any of the cells reach left wall (if current position is % grid columns )
-// if no, position-- and add class, if yes, position += 20 grid columns add class and clear interval
+// function bonusEnemy() {
+//   let currentPosition = 39;
+//   cellsArray[currentPosition].classList.add("bonus-enemy");
+//   const moveUfo = setInterval(() => {
+//     setInterval(() => {
+//       // remove bonus enemy, go back one cell then add bonus enemy
+//       cellsArray[currentPosition].classList.remove("bonus-enemy");
+//       currentPosition--;
+//       cellsArray[currentPosition].classList.add("bonus-enemy");
 
-// ! This block will move right-down-left-down-right-down etc across the screen - if this block touches my player - trigger game over
-// ! look at iteration methods - is every alien able to move?
+//       // check if the bonus enemy hits left wall, if so clear interval
+//       if (currentPosition % gridColumns === 0) {
+//         //   remove class and clear interval
+//         cellsArray[currentPosition].classList.remove("bonus-enemy");
+//         clearInterval(moveUfo);
+//       }
+//     }, 500);
+//   }, 3000);
+// }
+
+function bonusEnemy() {
+  let currentPosition = 39;
+  cellsArray[currentPosition].classList.add("bonus-enemy");
+  const moveUfo = setInterval(() => {
+    // Check if the bonus enemy hits the left wall
+    if (currentPosition % gridColumns === 0) {
+      // Clear the interval
+      clearInterval(moveUfo);
+      cellsArray[currentPosition].classList.add("bonus-enemy");
+      cellsArray[currentPosition].classList.remove("bonus-enemy");
+    } else {
+      // Remove the bonus-enemy class from the current position, move left
+      cellsArray[currentPosition].classList.remove("bonus-enemy");
+      currentPosition--;
+      // Add the bonus-enemy class to the new position
+      cellsArray[currentPosition].classList.add("bonus-enemy");
+    }
+  }, 300);
+
+  // Restart the bonus enemy function every 3 seconds
+  setTimeout(() => {
+    bonusEnemy();
+  }, 8000);
+} 
+
+// declare starting position of bonus-enemy
+// Create function bonusEnemy()
+// setInterval, 5000
+// Nest another setInterval,500 - this would add the class of bonus-enemy to starting position, remove it, find the next position and add the class of bonus-enemy to that cell
+
+// ! if alien block touches my player - trigger game over
 
 // *Create a function called enemyShoot with a set interval of 3000 - every 3 seconds a bullet falls
 // Nest another setInterval, 500 - move the bullet.
