@@ -103,10 +103,13 @@ let playerStartPosition = 183;
 
 let currentPlayerPosition = 183;
 
+let alienPosition;
+
 /*-------------------------------- Functions --------------------------------*/
 // * Create a function called gameStart that is triggered when button is clicked
 function gameStart() {
   createGrid();
+  moveAliensRight();
 }
 
 // * Create a function called createGrid that is called in the gameStart function
@@ -170,24 +173,35 @@ function movePlayer(event) {
     console.log("shoot");
   }
 }
-
-// create function to make aliens appear - 10 along the rows and 4 down the columns - starting at 44
 function addAlien() {
-  aliens.classList.add("alien");
+  aliens.forEach((alien) => {
+    alien.classList.add("alien");
+  });
 }
 
 function removeAlien() {
-  aliens.classList.remove("alien");
+  aliens.forEach((alien) => {
+    alien.classList.remove("alien");
+  });
 }
 
-// create function aliensMove
+// create function aliensMove?
 
-// function moveAliensRight()
 function moveAliensRight() {
-  setInterval(() => {
-    cellsArray.forEach(() => {});
+  const moveRight = setInterval(() => {
+    removeAlien();
+
+    for (let i = 0; i < aliens.length; i++) {
+      const currentIndex = cellsArray.indexOf(aliens[i]);
+      const nextIndex = currentIndex + 1;
+
+      aliens[i] = cellsArray[nextIndex];
+    }
+
+    addAlien();
   }, 800);
 }
+
 // setInterval
 // remove class of alien from current position
 // iterate through cells, check if any of the cells reach right wall ( if current positon +1 is % grid columns )
@@ -201,6 +215,11 @@ function moveAliensRight() {
 
 // ! This block will move right-down-left-down-right-down etc across the screen - if this block touches my player - trigger game over
 // ! look at iteration methods - is every alien able to move?
+
+// *Create a function called enemyShoot with a set interval of 3000 - every 3 seconds a bullet falls
+// Nest another setInterval, 500 - move the bullet.
+// use Math.random to find a random position in the array
+// Then add the class from current alien position, remove it, find the next position and update class of that cell with .alien - bullet
 
 /*----------------------------- Event Listeners -----------------------------*/
 // Add click event to startButton
