@@ -103,8 +103,6 @@ let playerStartPosition = 183;
 
 let currentPlayerPosition = 183;
 
-let alienPosition;
-
 /*-------------------------------- Functions --------------------------------*/
 // * Create a function called gameStart that is triggered when button is clicked
 function gameStart() {
@@ -220,6 +218,37 @@ function moveAliensRight() {
 // Nest another setInterval, 500 - move the bullet.
 // use Math.random to find a random position in the array
 // Then add the class from current alien position, remove it, find the next position and update class of that cell with .alien - bullet
+
+// create function to make aliens appear - 10 along the rows and 4 down the columns - starting at 44
+function addAlien() {
+  aliens.classList.add("alien");
+}
+
+function removeAlien() {
+  aliens.classList.remove("alien");
+}
+
+// create function aliensMove
+
+// function moveAliensRight()
+function moveAliensRight() {
+  setInterval(() => {
+    cellsArray.forEach(() => {});
+  }, 800);
+}
+// setInterval
+// remove class of alien from current position
+// iterate through cells, check if any of the cells reach right wall ( if current positon +1 is % grid columns )
+// if no, position++ and add class, if yes, position += 20 grid columns add class and clearInterval
+
+// function moveAliensLeft()
+// setInterval
+// remove class of alien from current position
+// iterate through cells, check if any of the cells reach left wall (if current position is % grid columns )
+// if no, position-- and add class, if yes, position += 20 grid columns add class and clear interval
+
+// ! This block will move right-down-left-down-right-down etc across the screen - if this block touches my player - trigger game over
+// ! look at iteration methods - is every alien able to move?
 
 /*----------------------------- Event Listeners -----------------------------*/
 // Add click event to startButton
