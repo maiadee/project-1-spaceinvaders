@@ -67,6 +67,7 @@ html {
   padding: 0;
   margin: 0;
   gap: 0px;
+  color: black;
 }
 
 .player {
@@ -115,12 +116,24 @@ html {
   color: white;
   border: 1px solid white;
 }
+.reset-button {
+  display: block;
+  margin: auto;
+  padding: 10px;
+  border-radius: 10px;
+  font-family: "Press Start 2P", system-ui;
+  /* comment out while working on it */
+  background-color: black;
+  color: white;
+  border: 1px solid white;
+}
 
 .hide-button {
   display: none;
 }
 
 #footer {
+  display: flex;
   width: 100%;
   height: 80px;
   background-image: url("../assets/background.png");

@@ -89,6 +89,8 @@
 /*-------------------------------- Constants --------------------------------*/
 const startButton = document.querySelector(".start-button");
 
+const resetButton = document.querySelector(".reset-button");
+
 const gridContainer = document.querySelector("#grid-container");
 
 const livesElement = document.querySelector("#lives");
@@ -112,7 +114,7 @@ let lives = 3;
 
 let score = 0;
 /*-------------------------------- Functions --------------------------------*/
-
+resetButton.classList.add("hide-button");
 function gameStart() {
   createGrid();
   moveAliensRight();
@@ -385,7 +387,7 @@ function enemyShoot() {
 // ?what happens within what interval, not nmesting them but calling it within another interval
 
 // create function gameOver
-//
+//remove class of .hide-button from resetButton
 
 /*----------------------------- Event Listeners -----------------------------*/
 // Add click event to startButton
