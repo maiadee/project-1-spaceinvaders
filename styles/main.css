@@ -97,6 +97,13 @@ html {
   background-repeat: no-repeat;
 }
 
+.alien-bullet {
+  background-image: url("../assets/alien-bullet.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .start-button {
   display: block;
   margin: auto;

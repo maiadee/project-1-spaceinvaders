@@ -109,6 +109,7 @@ function gameStart() {
   createGrid();
   moveAliensRight();
   bonusEnemy();
+  enemyShoot();
 }
 
 function createGrid() {
@@ -184,14 +185,14 @@ function removeAlien() {
 function moveAliensRight() {
   const moveRight = setInterval(() => {
     removeAlien();
-    alienIndices.some((alien) => {
-      console.log(
-        `${alien} % ${gridColumns}`,
-        alien % gridColumns === gridColumns - 1
-      );
+    // alienIndices.some((alien) => {
+    //   console.log(
+    //     `${alien} % ${gridColumns}`,
+    //     alien % gridColumns === gridColumns - 1
+    //     );
 
-      return alien % gridColumns === gridColumns - 1;
-    });
+    //   return alien % gridColumns === gridColumns - 1;
+    // });
     //   check if aliens have hit the wall - if so stop interval
     if (alienIndices.some((alien) => alien % gridColumns === gridColumns - 1)) {
       clearInterval(moveRight);
@@ -217,10 +218,10 @@ function moveAliensLeft() {
   const moveLeft = setInterval(() => {
     removeAlien();
     //  log to see if any aliens hit left wall
-    alienIndices.some((alien) => {
-      console.log(`${alien} % ${gridColumns}`, alien % gridColumns === 0);
-      return alien % gridColumns === 0;
-    });
+    // alienIndices.some((alien) => {
+    //   console.log(`${alien} % ${gridColumns}`, alien % gridColumns === 0);
+    //   return alien % gridColumns === 0;
+    // });
     //   check if aliens have hit left wall - if so stop interval
     if (alienIndices.some((alien) => alien % gridColumns === 0)) {
       clearInterval(moveLeft);
@@ -273,6 +274,7 @@ function playerShoot() {
   cellsArray[bulletPosition].classList.add("player-bullet");
   const shootEnemy = setInterval(() => {
     //   check if bullet hits an alien - clear interval
+    // ! log says theres a problem reading this line of code
     if (cellsArray[bulletPosition].classList.contains("alien")) {
       console.log("alien hit");
       clearInterval(shootEnemy);
@@ -292,19 +294,50 @@ function playerShoot() {
   }, 200);
 }
 
-// add window.addEventListener("space", (event) => {})
-// Use an if statement - if pressedKey === space, call playerShoot function
-// playerShoot function adds class of player-bullet to current player position
-// In a setInterval, 500, class is removed from current position and added to the position in row above
-// using an if statement check if any of the aliens in my array contain a class of player-bullet using an iteration method
-// If the bullet hits an alien, both the alien and the bullet disappear (remove class of enemy and player-bullet) and my score goes up 20 points - update innerHTML score
-
 // ! if alien block touches my player - trigger game over
 
-// *Create a function called enemyShoot with a set interval of 3000 - every 3 seconds a bullet falls
-// Nest another setInterval, 500 - move the bullet.
-// use Math.random to find a random position in the array
-// Then add the class from current alien position, remove it, find the next position and update class of that cell with .alien - bullet
+// every 3 seconds you find a new random index from alien array to shoot from
+// every 3 second the move bullet interval is triggered
+// move bullet interval is removing class, finding next position and adding class
+
+function enemyShoot() {
+  // find random index from alien array
+  let randomAlienIndex = Math.floor(Math.random() * alienIndices.length);
+  // get grid cell index
+  const startingCellIndex = alienIndices[randomAlienIndex];
+
+  // bullet in starting cell
+  cellsArray[startingCellIndex].classList.add("alien-bullet");
+
+  // move bullet down every 3 milliseconds
+  let currentCellIndex = startingCellIndex;
+
+  const moveBullet = setInterval(() => {
+    cellsArray[currentCellIndex].classList.remove("alien-bullet");
+    currentCellIndex += gridColumns;
+
+    // check if bullet hits player
+    if (cellsArray[currentCellIndex].classList.contains("player")) {
+      // lose a life
+      console.log("player hit");
+      return;
+    }
+    // clear interval when bullet leaves grid
+    if (currentCellIndex >= cellsArray.length) {
+      clearInterval(moveBullet);
+      return;
+    }
+
+    cellsArray[currentCellIndex].classList.add("alien-bullet");
+  }, 300);
+}
+
+setInterval(() => {
+  enemyShoot();
+}, 3000);
+
+// ? found hard - figuring out how to target the aliens array rather than whole cell array
+// ?what happens within what interval, not nmesting them but calling it within another interval
 
 /*----------------------------- Event Listeners -----------------------------*/
 // Add click event to startButton
