@@ -91,7 +91,10 @@ const startButton = document.querySelector(".start-button");
 
 const gridContainer = document.querySelector("#grid-container");
 
+const livesElement = document.querySelector("#lives");
+
 const alienIndices = [];
+const hitAliens = [];
 
 const cellsArray = [];
 const gridRows = 10;
@@ -103,6 +106,8 @@ let playerStartPosition = 183;
 
 let currentPlayerPosition = 183;
 
+let lives = 3;
+
 /*-------------------------------- Functions --------------------------------*/
 
 function gameStart() {
@@ -112,6 +117,9 @@ function gameStart() {
   setInterval(() => {
     enemyShoot();
   }, 3000);
+  // if lives === 0 - show game over - reset game
+  // if alien block touches my player - game over - reset game
+  // use loop - if no cells in alien array contain alien - show you win - reset game
 }
 
 function createGrid() {
@@ -246,8 +254,6 @@ function moveAliensLeft() {
   }, 1000);
 }
 
-// ! if alien block touches my player - trigger game over
-
 function bonusEnemy() {
   let currentPosition = 39;
   cellsArray[currentPosition].classList.add("bonus-enemy");
@@ -278,13 +284,28 @@ function playerShoot() {
   let bulletPosition = currentPlayerPosition;
   cellsArray[bulletPosition].classList.add("player-bullet");
   const shootEnemy = setInterval(() => {
+    // add and remove class of bullet going up a row each time
+    cellsArray[bulletPosition].classList.remove("player-bullet");
+    bulletPosition -= gridColumns;
+    cellsArray[bulletPosition].classList.add("player-bullet");
+
     //   check if bullet hits an alien - clear interval
     if (cellsArray[bulletPosition].classList.contains("alien")) {
       console.log("alien hit");
       cellsArray[bulletPosition].classList.remove("player-bullet");
       cellsArray[bulletPosition].classList.remove("alien");
+
+      // find the index
+      const alienIndex = alienIndices.indexOf(bulletPosition);
+      // check it exists in the array
+      if (alienIndex !== -1) {
+        // remove it permanently from the array
+        alienIndices.splice(alienIndex, 1);
+      }
+
       clearInterval(shootEnemy);
       return;
+      console.log(hitAliens);
     }
     // Check if bullet hits a bonus enemy
     if (cellsArray[bulletPosition].classList.contains("bonus-enemy")) {
@@ -303,11 +324,6 @@ function playerShoot() {
       console.log("off board");
       return;
     }
-    // add and remove class of bullet going up a row each time
-
-    cellsArray[bulletPosition].classList.remove("player-bullet");
-    bulletPosition -= gridColumns;
-    cellsArray[bulletPosition].classList.add("player-bullet");
   }, 200);
 }
 
@@ -339,11 +355,13 @@ function enemyShoot() {
     }
     // check if bullet hits player
     if (cellsArray[currentCellIndex].classList.contains("player")) {
-      // lose a life
-      console.log("player hit");
+      // update innerHTML of lives
+      lives--;
+      livesElement.innerHTML = lives;
+      clearInterval(moveBullet);
       return;
     }
-    console.log(currentCellIndex, cellsArray.length);
+    // console.log(currentCellIndex, cellsArray.length);
 
     cellsArray[currentCellIndex].classList.add("alien-bullet");
   }, 300);
