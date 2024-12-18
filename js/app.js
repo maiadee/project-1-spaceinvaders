@@ -387,7 +387,11 @@ function enemyShoot() {
 // ?what happens within what interval, not nmesting them but calling it within another interval
 
 // create function gameOver
-//remove class of .hide-button from resetButton
+// message appears on game 'GAME OVER'
+// use a hidden piece of HTML for this?
+// remove class of .hide from resetButton
+
+// add event lostener to reset Button that triggers
 
 /*----------------------------- Event Listeners -----------------------------*/
 // Add click event to startButton
