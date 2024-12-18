@@ -93,7 +93,7 @@ const gridContainer = document.querySelector("#grid-container");
 
 const livesElement = document.querySelector("#lives");
 
-const scoreElement = document.querySelector("#score");
+const scoreElement = document.querySelector("#current-score");
 
 const alienIndices = [];
 const hitAliens = [];
@@ -111,7 +111,6 @@ let currentPlayerPosition = 183;
 let lives = 3;
 
 let score = 0;
-
 /*-------------------------------- Functions --------------------------------*/
 
 function gameStart() {
@@ -300,6 +299,8 @@ function playerShoot() {
     //   check if bullet hits an alien - clear interval
     if (cellsArray[bulletPosition].classList.contains("alien")) {
       console.log("alien hit");
+      score += 20;
+      scoreElement.innerHTML = score;
       cellsArray[bulletPosition].classList.remove("player-bullet");
       cellsArray[bulletPosition].classList.remove("alien");
 
@@ -318,7 +319,8 @@ function playerShoot() {
     // Check if bullet hits a bonus enemy
     if (cellsArray[bulletPosition].classList.contains("bonus-enemy")) {
       console.log("Bonus enemy hit!");
-
+      score += 100;
+      scoreElement.innerHTML = score;
       cellsArray[bulletPosition].classList.remove("player-bullet");
       cellsArray[bulletPosition].classList.remove("bonus-enemy");
       clearInterval(shootEnemy);
