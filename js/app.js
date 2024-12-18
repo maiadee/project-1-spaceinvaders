@@ -93,6 +93,8 @@ const gridContainer = document.querySelector("#grid-container");
 
 const livesElement = document.querySelector("#lives");
 
+const scoreElement = document.querySelector("#score");
+
 const alienIndices = [];
 const hitAliens = [];
 
@@ -108,6 +110,8 @@ let currentPlayerPosition = 183;
 
 let lives = 3;
 
+let score = 0;
+
 /*-------------------------------- Functions --------------------------------*/
 
 function gameStart() {
@@ -118,8 +122,12 @@ function gameStart() {
     enemyShoot();
   }, 3000);
   // if lives === 0 - show game over - reset game
+
   // if alien block touches my player - game over - reset game
   // use loop - if no cells in alien array contain alien - show you win - reset game
+  if (alienIndices.length == 0) {
+    console.log("you win");
+  }
 }
 
 function createGrid() {
@@ -339,6 +347,7 @@ function enemyShoot() {
   }
 
   // bullet in starting cell
+  // ! error here when all aliens are hit
   cellsArray[startingCellIndex].classList.add("alien-bullet");
 
   // move bullet down every 3 milliseconds
@@ -365,10 +374,16 @@ function enemyShoot() {
 
     cellsArray[currentCellIndex].classList.add("alien-bullet");
   }, 300);
+  if (lives === 0) {
+    console.log("game over");
+  }
 }
 
 // ? found hard - figuring out how to target the aliens array rather than whole cell array
 // ?what happens within what interval, not nmesting them but calling it within another interval
+
+// create function gameOver
+//
 
 /*----------------------------- Event Listeners -----------------------------*/
 // Add click event to startButton
