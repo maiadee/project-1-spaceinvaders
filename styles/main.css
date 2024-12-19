@@ -5,7 +5,15 @@
   padding: 0;
 }
 
-body,
+body {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+}
+
 html {
   width: 100%;
   height: 100%;
@@ -14,13 +22,17 @@ html {
 #game-container {
   display: flex;
   border: 1px solid black;
-  align-items: stretch;
+  align-items: center;
   flex-direction: column;
   max-width: 800px;
+  /* height: auto; */
   font-family: "Press Start 2P", system-ui;
-  /* comment out while working on it */
   background-color: black;
   color: white;
+  /* width: fit-content; */
+  /* position: relative; */
+  /* max-width: 90%;
+  padding: 20px; */
 }
 
 #logo {
@@ -42,7 +54,7 @@ html {
 }
 
 #grid-container {
-  width: 400px;
+  width: 800px;
   height: 400px;
   display: grid;
   grid-template-columns: repeat(var(--grid-columns), 1fr);
@@ -109,8 +121,6 @@ html {
   color: white;
   border: 1px solid white;
   position: relative;
-  top: 90px;
-  left: 200px;
   font-size: 30px;
 }
 .reset-button {
