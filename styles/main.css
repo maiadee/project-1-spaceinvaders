@@ -38,18 +38,12 @@ html {
   width: 100%;
   height: 30px;
   padding: 10px;
-  font-size: 12px;
-}
-
-#current-score {
-}
-
-#lives {
+  font-size: 15px;
 }
 
 #grid-container {
-  width: 100%;
-  /* height: calc(100% - 190px) */
+  width: 400px;
+  height: 400px;
   display: grid;
   grid-template-columns: repeat(var(--grid-columns), 1fr);
   grid-template-rows: repeat(var(--grid-rows), 1fr);
@@ -67,7 +61,7 @@ html {
   padding: 0;
   margin: 0;
   gap: 0px;
-  color: black;
+  /* color: black; */
 }
 
 .player {
@@ -108,24 +102,27 @@ html {
 .start-button {
   display: block;
   margin: auto;
-  padding: 10px;
+  padding: 20px;
   border-radius: 10px;
   font-family: "Press Start 2P", system-ui;
-  /* comment out while working on it */
   background-color: black;
   color: white;
   border: 1px solid white;
+  position: relative;
+  top: 90px;
+  left: 200px;
+  font-size: 30px;
 }
 .reset-button {
   display: block;
   margin: auto;
-  padding: 10px;
+  padding: 12px;
   border-radius: 10px;
   font-family: "Press Start 2P", system-ui;
-  /* comment out while working on it */
   background-color: black;
   color: white;
   border: 1px solid white;
+  font-size: 20px;
 }
 
 .hide-button {

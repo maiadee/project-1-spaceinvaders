@@ -97,6 +97,8 @@ const livesElement = document.querySelector("#lives");
 
 const scoreElement = document.querySelector("#current-score");
 
+const resultElement = document.querySelector(".result");
+
 const alienIndices = [];
 const hitAliens = [];
 
@@ -104,6 +106,7 @@ const cellsArray = [];
 const gridRows = 10;
 const gridColumns = 20;
 const totalCellCount = gridRows * gridColumns;
+const bottomRow = gridRows - 1;
 
 /*-------------------------------- Variables --------------------------------*/
 let playerStartPosition = 183;
@@ -119,16 +122,17 @@ function gameStart() {
   createGrid();
   moveAliensRight();
   bonusEnemy();
-  setInterval(() => {
+  playerShoot();
+  const enemyShootInterval = setInterval(() => {
     enemyShoot();
-  }, 3000);
+  }, 1000);
   // if lives === 0 - show game over - reset game
+  if (lives === 0) {
+    gameOver();
+  }
 
   // if alien block touches my player - game over - reset game
   // use loop - if no cells in alien array contain alien - show you win - reset game
-  if (alienIndices.length == 0) {
-    console.log("you win");
-  }
 }
 
 function createGrid() {
@@ -140,8 +144,14 @@ function createGrid() {
     cell.classList.add("cell");
     cell.innerText = i;
     gridContainer.appendChild(cell);
+    // push cells into an array
     cellsArray.push(cell);
   }
+  // remove numbers from the cells
+  cellsArray.forEach((cell) => {
+    cell.innerHTML = "";
+  });
+
   cellsArray[playerStartPosition].classList.add("player");
 
   for (let i = 45; i < 55; i++) {
@@ -156,10 +166,11 @@ function createGrid() {
   for (let i = 105; i < 115; i++) {
     alienIndices.push(i);
   }
-
+  // add alien to each cell in alien array
   alienIndices.forEach((alien) => {
     cellsArray[alien].classList.add("alien");
   });
+
   enemyShoot();
 }
 
@@ -232,6 +243,15 @@ function moveAliensRight() {
     }
     addAlien();
   }, 1000);
+  // check if alien reaches bottom row
+  if (
+    alienIndices.some((alien) => {
+      const row = Math.floor(alien / gridColumns);
+      return row === bottomRow;
+    })
+  ) {
+    gameOver();
+  }
 }
 
 function moveAliensLeft() {
@@ -287,17 +307,21 @@ function bonusEnemy() {
     bonusEnemy();
   }, 8000);
 }
-
 function playerShoot() {
   // add bullet to player position
   let bulletPosition = currentPlayerPosition;
   cellsArray[bulletPosition].classList.add("player-bullet");
+
   const shootEnemy = setInterval(() => {
     // add and remove class of bullet going up a row each time
     cellsArray[bulletPosition].classList.remove("player-bullet");
     bulletPosition -= gridColumns;
     cellsArray[bulletPosition].classList.add("player-bullet");
+    if (alienIndices.length < 1) {
+      console.log("you win");
 
+      youWin();
+    }
     //   check if bullet hits an alien - clear interval
     if (cellsArray[bulletPosition].classList.contains("alien")) {
       console.log("alien hit");
@@ -340,8 +364,12 @@ function playerShoot() {
 }
 
 function enemyShoot() {
+  if (alienIndices.length < 1) {
+    return;
+  }
   // find random index from alien array
   let randomAlienIndex = Math.floor(Math.random() * alienIndices.length);
+
   // get grid cell index
   const startingCellIndex = alienIndices[randomAlienIndex];
 
@@ -349,10 +377,6 @@ function enemyShoot() {
     clearInterval(moveBullet);
     return;
   }
-
-  // bullet in starting cell
-  // ! error here when all aliens are hit
-  cellsArray[startingCellIndex].classList.add("alien-bullet");
 
   // move bullet down every 3 milliseconds
   let currentCellIndex = startingCellIndex;
@@ -374,26 +398,37 @@ function enemyShoot() {
       clearInterval(moveBullet);
       return;
     }
-    // console.log(currentCellIndex, cellsArray.length);
 
     cellsArray[currentCellIndex].classList.add("alien-bullet");
   }, 300);
   if (lives === 0) {
-    console.log("game over");
+    gameOver();
   }
 }
 
 // ? found hard - figuring out how to target the aliens array rather than whole cell array
 // ?what happens within what interval, not nmesting them but calling it within another interval
 
-// create function gameOver
-// message appears on game 'GAME OVER'
-// use a hidden piece of HTML for this?
-// remove class of .hide from resetButton
+function gameOver() {
+  resultElement.innerHTML = "GAME OVER";
+  resetButton.classList.remove("hide-button");
+}
 
-// add event lostener to reset Button that triggers
+function youWin() {
+  resultElement.innerHTML = "YOU WON!";
+  resetButton.classList.remove("hide-button");
+}
+
+function resetGame() {
+  score = 0;
+  scoreElement.innerHTML = score;
+  lives = 3;
+  livesElement.innerHTML = lives;
+  gameStart();
+}
 
 /*----------------------------- Event Listeners -----------------------------*/
 // Add click event to startButton
 startButton.addEventListener("click", gameStart);
 document.addEventListener("keydown", movePlayer);
+resetButton.addEventListener("click", resetGame);
