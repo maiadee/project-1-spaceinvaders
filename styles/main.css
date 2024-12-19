@@ -25,14 +25,9 @@ html {
   align-items: center;
   flex-direction: column;
   max-width: 800px;
-  /* height: auto; */
   font-family: "Press Start 2P", system-ui;
   background-color: black;
   color: white;
-  /* width: fit-content; */
-  /* position: relative; */
-  /* max-width: 90%;
-  padding: 20px; */
 }
 
 #logo {
@@ -73,7 +68,6 @@ html {
   padding: 0;
   margin: 0;
   gap: 0px;
-  /* color: black; */
 }
 
 .player {
