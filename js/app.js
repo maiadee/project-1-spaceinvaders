@@ -116,6 +116,13 @@ let currentPlayerPosition = 183;
 let lives = 3;
 
 let score = 0;
+
+let gameActive = true;
+
+// interval ID for enemy shoot and moving aliens - so Ic an reassign later
+let enemyShootInterval = null;
+let moveAliensInterval = null;
+
 /*-------------------------------- Functions --------------------------------*/
 resetButton.classList.add("hide-button");
 function gameStart() {
@@ -123,16 +130,13 @@ function gameStart() {
   moveAliensRight();
   bonusEnemy();
   playerShoot();
-  const enemyShootInterval = setInterval(() => {
+  enemyShootInterval = setInterval(() => {
     enemyShoot();
   }, 1000);
   // if lives === 0 - show game over - reset game
   if (lives === 0) {
     gameOver();
   }
-
-  // if alien block touches my player - game over - reset game
-  // use loop - if no cells in alien array contain alien - show you win - reset game
 }
 
 function createGrid() {
@@ -150,6 +154,13 @@ function createGrid() {
   // remove numbers from the cells
   cellsArray.forEach((cell) => {
     cell.innerHTML = "";
+    cell.classList.remove(
+      "player",
+      "alien",
+      "player-bullet",
+      "enemy-bullet",
+      "bonus-enemy"
+    );
   });
 
   cellsArray[playerStartPosition].classList.add("player");
@@ -184,7 +195,8 @@ function removePlayer() {
 
 function movePlayer(event) {
   const pressedKey = event.code;
-
+  // added
+  if (!gameActive) return;
   if (pressedKey === "ArrowLeft" && currentPlayerPosition % gridColumns !== 0) {
     removePlayer(currentPlayerPosition);
     currentPlayerPosition--;
@@ -214,6 +226,7 @@ function removeAlien() {
 }
 
 function moveAliensRight() {
+  if (!gameActive) return;
   const moveRight = setInterval(() => {
     removeAlien();
     // alienIndices.some((alien) => {
@@ -284,6 +297,7 @@ function moveAliensLeft() {
 }
 
 function bonusEnemy() {
+  if (!gameActive) return;
   let currentPosition = 39;
   cellsArray[currentPosition].classList.add("bonus-enemy");
   const moveUfo = setInterval(() => {
@@ -308,6 +322,7 @@ function bonusEnemy() {
   }, 8000);
 }
 function playerShoot() {
+  if (!gameActive) return;
   // add bullet to player position
   let bulletPosition = currentPlayerPosition;
   cellsArray[bulletPosition].classList.add("player-bullet");
@@ -364,6 +379,7 @@ function playerShoot() {
 }
 
 function enemyShoot() {
+  if (!gameActive) return;
   if (alienIndices.length < 1) {
     return;
   }
@@ -395,15 +411,18 @@ function enemyShoot() {
       // update innerHTML of lives
       lives--;
       livesElement.innerHTML = lives;
+
+      // check if lives = 0
+      if (lives === 0) {
+        gameOver();
+      }
+
       clearInterval(moveBullet);
       return;
     }
 
     cellsArray[currentCellIndex].classList.add("alien-bullet");
   }, 300);
-  if (lives === 0) {
-    gameOver();
-  }
 }
 
 // ? found hard - figuring out how to target the aliens array rather than whole cell array
@@ -412,18 +431,34 @@ function enemyShoot() {
 function gameOver() {
   resultElement.innerHTML = "GAME OVER";
   resetButton.classList.remove("hide-button");
+  gameActive = false;
 }
 
 function youWin() {
   resultElement.innerHTML = "YOU WON!";
   resetButton.classList.remove("hide-button");
+  gameActive = false;
 }
 
 function resetGame() {
+  // check if interval has a value (interval is running), if yes - stop intervals
+  if (enemyShootInterval) {
+    clearInterval(enemyShootInterval);
+  }
+  if (moveAliensInterval) {
+    clearInterval(moveAliensInterval);
+  }
+  // reset game
   score = 0;
   scoreElement.innerHTML = score;
   lives = 3;
   livesElement.innerHTML = lives;
+  gameActive = true;
+
+  // clear previous grid
+  gridContainer.innerHTML = "";
+  cellsArray.length = 0;
+
   gameStart();
 }
 
