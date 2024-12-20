@@ -30,7 +30,6 @@ Wireframes
 
 ![SpaceInvaders](<Readme images /spaceinvaders-wireframe.png>)
 
-
 ### Build/Code Process
 
 Sunday
@@ -111,7 +110,7 @@ I then needed to centre my start button within this - I did this using position:
 I noticed once my game was played for a while I had a couple of bugs. It appeared to be when all my aliens had been killed
 I has to spend a fair amount of time on this trialing different lines of code and different orders of my code.
 My console was searching for indices outside of the cellsArray I realised I needed to remove a line of code and place an if statement at the top of my enemyShoot function to stop the function from running if there were no aliens
-I did the same for my moveBullet timer within this same function. To stop the game from searching for bullets that were outside of the grid in this code I am checking that the bullet has moved either beyond the last cell in my grid or before the first cell in my grid. If either are true the interval is cleared and i'm ensuring no code bhyeond this in my function is executed
+I did the same for my moveBullet timer within this same function. To stop the game from searching for bullets that were outside of the grid in this code I am checking that the bullet has moved either beyond the last cell in my grid or before the first cell in my grid. If either are true the interval is cleared and i'm ensuring no code beyond this in my function is executed
 
 ![SpaceInvaders](<Readme images /code-block4.png>)
 
