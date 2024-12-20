@@ -186,7 +186,7 @@ function bonusEnemy() {
 
   setTimeout(() => {
     bonusEnemy();
-  }, 8000);
+  }, 10000);
 }
 
 function playerShoot() {
