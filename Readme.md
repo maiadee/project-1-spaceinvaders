@@ -8,6 +8,8 @@ Our first project of the course commenced during week 3 where I recreated the ar
 
 ### Deployment link
 
+https://maiadee.github.io/project-1-spaceinvaders/
+
 ### Getting Started/Code Installation
 
 ### Timeframe
