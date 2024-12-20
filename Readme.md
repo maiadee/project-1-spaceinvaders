@@ -30,9 +30,6 @@ Wireframes
 
 ![SpaceInvaders](<Readme images /spaceinvaders-wireframe.png>)
 
-Pseudocode
-
--
 
 ### Build/Code Process
 
@@ -64,8 +61,16 @@ Tuesday
 focused on finishing my alien movement
 Trialed a few ways to do this - realised I wasn’t targeting my alien array I was targeting the DOM element (div) as I had pushed my aliens into cellsArray[I] rather than into my alienIndices array
 Tried using a forEach loop instead of a for loop, this wasn't updating the index of my aliens
-Set Interval of 1 second - use some() to iterate through the whole array and check if any of the indices have hit the right side wall. If yes use - use a for loop give each index a new index ( += grid columns )
-If they have not touched the wall, use another for loop to give each index a new index of +1
+within a set Interval of 1 second - I used some() to iterate through the whole array and check if any of the elemtns in my array had hit the right side wall. If yes, I've used a for loop to give each index a new index ( += grid columns )
+
+![SpaceInvaders](<Readme images /code-block3.png>)
+
+If they have not touched the wall, use another for loop to give each index a new index of +1 as shown in the code below -
+
+![SpaceInvaders](<Readme images /code-block2.png>)
+
+In this code I am iterating through my array so that I can give each index a new index, moving them along one cell to the right
+
 Used same logic for moving left and called that function after my aliens hit right wall and moved down a row - same for the reverse
 Created CSS property with a class of .bonus-enemy
 Used a set interval to remove and add the class of bonus-enemy and update the current position each interval
@@ -80,20 +85,21 @@ I also need to add another if statement within that function to determine whethe
 
 Wednesday
 
-I started Wednesday by debugging my enemy shoot and player shoot functions as there were both working but I was getting classless undefined in my console for lines in both functions after the game had been played for a few seconds
+I started Wednesday by debugging my enemy shoot and player shoot functions as they were both working but I was getting classlist undefined in my console for lines in both functions after the game had been played for a few seconds
 The issue for playerShoot was that I did not have an if statement for what to do when the bullet left the grid, this is when I was receiving errors in my console.
 I needed to add an if position to check whether the bullet’s next position would be less than 0, off the grid. If so, clearInterval
-The same went for the enemy shoot function. I had an if statement to check whether the enemy bullet was off the grid but it was in the wrong order in my function. I needed to check the index position before my interval begins. (Why?)
-Good learning moment for the importance of order and scope(?)
-My most challenging task of the day was figuring out how to make the alien permanently disappear when they are hit by my players bullet. They currently disappear when hit and reappear when the interval repeats.
+The same went for the enemy shoot function. I had an if statement to check whether the enemy bullet was off the grid but it was in the wrong order in my function. I needed to check the index position before my interval begins.
+My most challenging task of the day was figuring out how to make the alien permanently disappear when they are hit by my players bullet. They previously disappearred when hit but reappearred when the interval repeated.
 The best logic I had for this was to remove the aliens from the array permanently when hit.
 I broke this down into first finding the index of that alien and then removing from the array using splice() as shown below -
+
 ![SpaceInvaders](<Readme images /code-block1.png>)
+
 I needed to decrease my lives every time my player was hit by a bullet, which I nested inside my enemy shoot function
 I cached my lives span so I could update the HTML and created a variable of lives which I set to 3
 Using an if statement to check whether the bullet current index contained a class of player
 I then decrease lives using — and updated the innerHTML with the new number
-I repeated this process for the score, nesting kit in my player shoot function and adding 20 to the score variable
+I repeated this process for the score, nesting it in my player shoot function and adding 20 to the score variable
 Tomorrow I need to complete my reset game function and display win/lose on the screen dependant on game results
 To start this off I added a reset button to my footer but as I only want to see this once the player wins or loses I added the class of hide-button to the reset button before the gameStart function is called, the same class I added to my start button inside my gameStart function when the button is clicked
 
@@ -104,7 +110,11 @@ To do this I played around with the height and width properties of my grid conta
 I then needed to centre my start button within this - I did this using position: relative and moved it 200px to the right
 I noticed once my game was played for a while I had a couple of bugs. It appeared to be when all my aliens had been killed
 I has to spend a fair amount of time on this trialing different lines of code and different orders of my code.
-My console was searching for bullets and aliens where they no longer existed. I finally realised I needed to remove a line of code and place an if statement at the top of my enemyShoot function to stop the function from running if there were no aliens
+My console was searching for indices outside of the cellsArray I realised I needed to remove a line of code and place an if statement at the top of my enemyShoot function to stop the function from running if there were no aliens
+I did the same for my moveBullet timer within this same function. To stop the game from searching for bullets that were outside of the grid in this code I am checking that the bullet has moved either beyond the last cell in my grid or before the first cell in my grid. If either are true the interval is cleared and i'm ensuring no code bhyeond this in my function is executed
+
+![SpaceInvaders](<Readme images /code-block4.png>)
+
 I then focussed on my reset function.
 Within this I reset my score and lives by updating the innerHTML and reset gameActive to true
 I then added an event listener to my reset game button and called the reset game function in this

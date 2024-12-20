@@ -223,7 +223,7 @@ function playerShoot() {
 
     if (cellsArray[bulletPosition].classList.contains("bonus-enemy")) {
       console.log("Bonus enemy hit!");
-      score += 100;   
+      score += 100;
       scoreElement.innerHTML = score;
       cellsArray[bulletPosition].classList.remove("player-bullet");
       cellsArray[bulletPosition].classList.remove("bonus-enemy");
