@@ -115,7 +115,7 @@ Finally, I made sure the game was centered in the browser using Flexbox and set 
 
 - Creating my reset function was a challenge as I had so many timers within my code, some nested within others. I now know that I need to remember every single timer needs to be cleared indivdually for the game to reset.
 
-### Wins
+### Wins
 
 - I encountered a lot of bugs during the process of building this game and I feel as though repeating that debugging process has built more confidence in my abilities.
 - I’ve solved complex problems around arrays and loops.
@@ -136,7 +136,7 @@ Finally, I made sure the game was centered in the browser using Flexbox and set 
 
 - The most challenging feature I would like to add would be the 4 protective elements as these would take up 4 cells each and also breakdown each time a missile hits them
 
-### Bugs
+### Bugs
 
 - As the project progressed, I encountered an increasing number of bugs. It seemed that every time I added a new feature, another issue would surface. I realised that many of these bugs stemmed from recurring issues, often related to naming conventions and the order of my code. By refining the naming conventions and reordering certain code sections, I was able to resolve most of the problems, ensuring that each part of the game functioned correctly
 
